@@ -3,11 +3,11 @@
 :- asserta(library_directory('.')).
 :- asserta(library_directory('./src')).
 % Convert latex to expression
-% :- use_module(library(latex)).
+% :- use_module('./latex.pl').
 % Rules for derivatives
-:- use_module(library(dev)).
+:- use_module('./src/dev.pl').
 % Expression Simplication
-:- use_module(library(simp)).
+:- use_module('./src/simp.pl').
 
 % % Run the application
 % run :-
