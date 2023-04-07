@@ -1,8 +1,14 @@
+# MicroMath
 
+MicroMath is a simple symbolic math library written in Prolog. It provides basic functionality for performing symbolic differentiation and integration.
 
+## Features
 
+- Symbolic differentiation
+- Symbolic integration
+- LaTeX conversion (partial support)
 
-# How to run tests
+## How to run tests
 To run the tests in your Prolog project, you can do the following steps:
 
 First, make sure you are in the root directory of your project.
