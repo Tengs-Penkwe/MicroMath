@@ -108,6 +108,99 @@ test(nested_sub_dvd_dvd) :-
 test(nested_dvd_mul_dvd) :-
     ast_to_string(dvd(num(1), mul(dvd(num(2), num(3)), num(4))), '1/(2/3*4)').
 
+test(nested_mul_mul) :-
+    ast_to_string(mul(num(1), mul(num(2), num(3))), '1*2*3').
+
+test(nested_dvd_add) :-
+    ast_to_string(dvd(num(1), add(num(2), num(3))), '1/(2+3)').
+
+test(nested_dvd_sub) :-
+    ast_to_string(dvd(num(1), sub(num(2), num(3))), '1/(2-3)').
+
+test(nested_mul_add_sub) :-
+    ast_to_string(mul(add(num(1), num(2)), sub(num(3), num(4))), '(1+2)*(3-4)').
+
+test(nested_dvd_add_sub) :-
+    ast_to_string(dvd(add(num(1), num(2)), sub(num(3), num(4))), '(1+2)/(3-4)').
+
+test(nested_mul_dvd_add_sub) :-
+    ast_to_string(mul(dvd(num(1), num(2)), add(num(3), sub(num(4), num(5)))), '1/2*(3+4-5)').
+
+test(nested_dvd_mul_add_sub) :-
+    ast_to_string(dvd(mul(num(1), num(2)), add(num(3), sub(num(4), num(5)))), '1*2/(3+4-5)').
+
+test(pow_pow) :-
+    ast_to_string(pow(num(1), pow(num(2), num(3))), '1^2^3').
+
+test(pow_dvd) :-
+    ast_to_string(pow(dvd(num(1), num(2)), num(3)), '(1/2)^3').
+
+test(pow_mul) :-
+    ast_to_string(pow(mul(num(1), num(2)), num(3)), '(1*2)^3').
+
+test(pow_add) :-
+    ast_to_string(pow(add(num(1), num(2)), num(3)), '(1+2)^3').
+
+test(pow_sub) :-
+    ast_to_string(pow(sub(num(1), num(2)), num(3)), '(1-2)^3').
+
+test(add_pow) :-
+    ast_to_string(add(num(1), pow(num(2), num(3))), '1+2^3').
+
+test(sub_pow) :-
+    ast_to_string(sub(num(1), pow(num(2), num(3))), '1-2^3').
+
+test(mul_pow) :-
+    ast_to_string(mul(num(1), pow(num(2), num(3))), '1*2^3').
+
+test(dvd_pow) :-
+    ast_to_string(dvd(num(1), pow(num(2), num(3))), '1/2^3').
+
+test(nested_pow_add_sub) :-
+    ast_to_string(pow(add(num(1), num(2)), sub(num(3), num(4))), '(1+2)^(3-4)').
+
+test(nested_pow_mul_dvd) :-
+    ast_to_string(pow(mul(num(1), num(2)), dvd(num(3), num(4))), '(1*2)^(3/4)').
+
+test(nested_add_pow_mul) :-
+    ast_to_string(add(num(1), mul(pow(num(2), num(3)), num(4))), '1+2^3*4').
+
+test(nested_sub_pow_dvd) :-
+    ast_to_string(sub(num(1), dvd(pow(num(2), num(3)), num(4))), '1-2^3/4').
+
+test(nested_mul_mul_mul) :-
+    ast_to_string(mul(num(1), mul(num(2), mul(num(3), num(4)))), '1*2*3*4').
+
+test(nested_mul_dvd_mul) :-
+    ast_to_string(mul(num(1), dvd(mul(num(2), num(3)), num(4))), '1*2*3/4').
+
+test(nested_dvd_dvd_dvd) :-
+    ast_to_string(dvd(num(1), dvd(num(2), dvd(num(3), num(4)))), '1/(2/(3/4))').
+
+test(nested_mul_dvd_dvd_mul) :-
+    ast_to_string(mul(dvd(num(1), num(2)), dvd(num(3), mul(num(4), num(5)))), '1/2*3/(4*5)').
+
+test(nested_dvd_mul_dvd_mul) :-
+    ast_to_string(dvd(mul(num(1), num(2)), mul(dvd(num(3), num(4)), num(5))), '1*2/(3/4*5)').
+
+test(nested_mul_dvd_dvd_dvd_mul) :-
+    ast_to_string(mul(dvd(num(1), dvd(num(2), dvd(num(3), num(4)))), mul(num(5), num(6))), '1/(2/(3/4))*5*6').
+
+test(nested_dvd_mul_mul_mul_dvd) :-
+    ast_to_string(dvd(mul(num(1), mul(num(2), mul(num(3), num(4)))), dvd(num(5), num(6))), '1*2*3*4/(5/6)').
+
+test(nested_mul_dvd_mul_dvd_mul) :-
+    ast_to_string(mul(dvd(num(1), num(2)), mul(dvd(num(3), num(4)), num(5))), '1/2*3/4*5').
+
+test(nested_dvd_mul_dvd_mul_dvd) :-
+    ast_to_string(dvd(mul(num(1), num(2)), mul(dvd(num(3), num(4)), num(5))), '1*2/(3/4*5)').
+
+test(nested_mul_mul_dvd_dvd_mul) :-
+    ast_to_string(mul(mul(num(1), num(2)), dvd(dvd(num(3), num(4)), num(5))), '1*2*(3/4)/5').
+
+test(nested_dvd_dvd_mul_mul_dvd) :-
+    ast_to_string(dvd(dvd(num(1), num(2)), mul(mul(num(3), num(4)), num(5))), '(1/2)/(3*4*5)').
+
 :- end_tests(parentheses).
 
 :- begin_tests(ast_to_string_complex).

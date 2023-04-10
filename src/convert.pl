@@ -30,8 +30,8 @@ ast_to_string_binop(E1, E2, Op, S) :-
     ast_to_string(E1, S1),
     ast_to_string(E2, S2),
     operator_string(Op, Opstr),
-    (needs_paren(E1, Op) -> (P1 = '(', P2 = ')') ; (P1 = '', P2 = '')),
-    (needs_paren(E2, Op) -> (P3 = '(', P4 = ')') ; (P3 = '', P4 = '')),
+    (needs_paren(E1, Op, left) -> (P1 = '(', P2 = ')') ; (P1 = '', P2 = '')),
+    (needs_paren(E2, Op, right) -> (P3 = '(', P4 = ')') ; (P3 = '', P4 = '')),
     atomic_list_concat([P1, S1, P2, Opstr, P3, S2, P4], S).
 
 operator_string(add, '+').
@@ -40,17 +40,9 @@ operator_string(mul, "*").
 operator_string(dvd, "/").
 operator_string(pow, "^"). 
 
-
-needs_paren(add(_, _), Op) :- member(Op, [sub, mul, dvd, pow]).
-needs_paren(sub(_, _), Op) :- member(Op, [mul, dvd, pow]).
-needs_paren(mul(_, _), Op) :- member(Op, [pow]).
-needs_paren(dvd(_, _), Op) :- member(Op, [pow]).
+needs_paren(add(_, _), Op, _) :- member(Op, [mul, dvd, pow]).
+needs_paren(sub(_, _), Op, _) :- member(Op, [sub, mul, dvd, pow]).
+needs_paren(dvd(_, _), Op, _) :- member(Op, [dvd, pow]).
+needs_paren(mul(_, _), Op, right) :- member(Op, [dvd, pow]).
+needs_paren(mul(_, _), Op, left)  :- member(Op, [pow]).
 needs_paren(_, _) :- false.
-
-% needs_paren(add(_, _), sub) :- !.
-% needs_paren(mul(_, _), dvd) :- !.
-% needs_paren(mul(_, _), mul) :- !.
-% needs_paren(dvd(_, _), mul) :- !.
-% needs_paren(dvd(_, _), dvd) :- !.
-% needs_paren(_, _).
-
