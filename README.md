@@ -1,12 +1,14 @@
 # MicroMath
 
-MicroMath is a simple symbolic math library written in Prolog. It provides basic functionality for performing symbolic differentiation and integration.
+MicroMath is a simple symbolic math library written in Prolog. It provides basic functionality for parsing, simplifying, and performing symbolic differentiation and integration.
 
 ## Features
 
+- Expression parsing
+- Expression simplification
 - Symbolic differentiation
 - Symbolic integration
-- LaTeX conversion (partial support)
+- Conversion to string
 
 ## How to run tests
 To run the tests in your Prolog project, you can do the following steps:
@@ -16,7 +18,7 @@ Then, start the SWI-Prolog interpreter by typing swipl in the terminal.
 Load the main.pl file and the test files by entering the following commands in the SWI-Prolog interpreter:
 ```bash
 ?- [main].
-?- [tests/dev_ts, tests/integ_ts].
+?- [tests/parse_ts, tests/simplify_ts].
 ```
 Finally, run the tests using the `run_tests` predicate:
 ```bash
@@ -27,6 +29,9 @@ This command will execute all the tests in the loaded test files. You will see t
 If you prefer a one-liner command to run the tests, you can execute the following command in your terminal:
 
 ```bash
-swipl -s main.pl -g "consult('tests/dev_ts'), consult('tests/integ_ts'), run_tests, halt"
+swipl -s main.pl -g "consult('tests/parse_ts'), consult('tests/simplify_ts'), run_tests, halt"
 ```
-This command will load the main.pl, dev_ts.pl, and integ_ts.pl files, run the tests, and then halt the interpreter.
+This command will load the main.pl, parse_ts.pl, and simplify_ts.pl files, run the tests, and then halt the interpreter.
+
+# Features to add
+1. Adding const to AST, so we can deal with 2rd integration correctly (Cx)
