@@ -232,5 +232,35 @@ test(nested_expression_12) :-
 test(nested_expression_13) :-
     ast_to_string(integ(add(mul(num(2), pow(vrb(x), num(2))), mul(num(3), vrb(x))), vrb(x)), '∫(2*x^2+3*x)x').
 
+test(nested_expression_14) :-
+    ast_to_string(add(exp(vrb(x)), mul(dvd(num(1), vrb(x)), ln(vrb(x)))), 'exp(x)+1/x*ln(x)').
+
+test(nested_expression_15) :-
+    ast_to_string(add(mul(num(2), pow(vrb(x), num(3))), mul(num(3), pow(vrb(x), num(2)))), '2*x^3+3*x^2').
+
+test(nested_expression_16) :-
+    ast_to_string(dvd(sub(mul(num(4), pow(vrb(x), num(2))), mul(num(3), vrb(x))), add(num(2), vrb(x))), '(4*x^2-3*x)/(2+x)').
+
+test(nested_expression_17) :-
+    ast_to_string(add(sin(add(vrb(x), num(1))), cos(mul(vrb(x), num(2)))), 'sin(x+1)+cos(x*2)').
+
+test(nested_expression_18) :-
+    ast_to_string(dvd(exp(mul(num(2), add(vrb(x), num(3)))), pow(vrb(x), num(2))), 'exp(2*(x+3))/x^2').
+
+test(nested_expression_19) :-
+    ast_to_string(pow(add(num(1), mul(num(2), vrb(x))), num(3)), '(1+2*x)^3').
+
+test(nested_expression_20) :-
+    ast_to_string(diff(add(pow(vrb(x), num(2)), mul(num(3), sin(vrb(x)))), vrb(x)), 'Dx(x^2+3*sin(x))').
+
+test(nested_expression_21) :-
+    ast_to_string(integ(mul(sin(pow(vrb(x), num(2))), cos(pow(vrb(x), num(2)))), vrb(x)), '∫(sin(x^2)*cos(x^2))x').
+
+test(nested_expression_22) :-
+    ast_to_string(diff(exp(mul(vrb(x), pow(vrb(x), num(2)))), mul(num(2), vrb(x))), 'Dx(exp(x*x^2)*2*x)').
+
+test(nested_expression_23) :-
+    ast_to_string(integ(add(mul(num(2), pow(vrb(x), num(2))), mul(num(3), pow(vrb(x), num(3)))), vrb(x)), '∫(2*x^2+3*x^3)x').
+
 :- end_tests(ast_to_string_complex).
 

@@ -30,7 +30,7 @@ ast_to_string_binop(E1, E2, Op, S) :-
     ast_to_string(E1, S1),
     ast_to_string(E2, S2),
     operator_string(Op, Opstr),
-    (needs_paren(E1, Op, left) -> (P1 = '(', P2 = ')') ; (P1 = '', P2 = '')),
+    (needs_paren(E1, Op, left)  -> (P1 = '(', P2 = ')') ; (P1 = '', P2 = '')),
     (needs_paren(E2, Op, right) -> (P3 = '(', P4 = ')') ; (P3 = '', P4 = '')),
     atomic_list_concat([P1, S1, P2, Opstr, P3, S2, P4], S).
 
