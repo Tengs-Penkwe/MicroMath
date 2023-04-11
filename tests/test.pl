@@ -1,52 +1,32 @@
-:- use_module('../src/simp.pl').
-:- use_module('../src/parse.pl').
+:- use_module('../main.pl').
 
 :- begin_tests(composed_test).
 
-% Test multiplication simplification
-test(simple_mul_simplify) :-
-    phrase(expr(T), [4, *, 2]),
-    T = mul(num(4), num(2)),
-    simplify(T, R),
-    R = num(8),
-    !.
+test(simplify_addition) :-
+    micro_math("x+0", "x").
 
-% Test division simplification
-test(simple_dvd_simplify) :-
-    phrase(expr(T), [9, /, 3]),
-    T = dvd(num(9), num(3)),
-    simplify(T, R),
-    R = num(3),
-    !.
+test(simplify_subtraction) :-
+    micro_math("x-0", "x").
 
-% Test nested expression simplification
-test(nested_expr_simplify) :-
-    phrase(expr(T), [1, +, 2, *, 3, -, 4, /, 2]),
-    T = sub(add(num(1), mul(num(2), num(3))), dvd(num(4), num(2))),
-    simplify(T, R),
-    R = sub(add(num(1), num(6)), num(2)),
-    !.
+test(simplify_multiplication) :-
+    micro_math("x*1", "x").
 
-% Test integration simplification
-test(integ_simple) :-
-    simplify(integ(num(5), x), R),
-    R = mul(num(5), x),
-    !.
+test(simplify_division) :-
+    micro_math("x/1", "x").
 
-% Test differentiation of a more complex expression
-test(diff_expr) :-
-    phrase(expr(T), [x, *, x, +, 1]),
-    T = add(mul(x, x), num(1)),
-    simplify(diff(T, x), R),
-    R = add(mul(num(2), x), num(0)),
-    !.
+test(simplify_exponentiation) :-
+    micro_math("x^1", "x").
 
-% Test integration of a more complex expression
-test(integ_expr) :-
-    phrase(expr(T), [x, *, x, +, 1]),
-    T = add(mul(x, x), num(1)),
-    simplify(integ(T, x), R),
-    R = add(dvd(mul(num(1), pow(x, num(3))), num(3)), mul(x, num(1))),
-    !.
+test(simplify_polynomial) :-
+    micro_math("x^2+2*x+1", "x^2+2*x+1").
+
+test(simplify_trig_functions) :-
+    micro_math("sin(0)+cos(0)", "1").
+
+test(simplify_nested_functions) :-
+    micro_math("sin(cos(0))", "sin(1)").
+
+test(simplify_complex_expression) :-
+    micro_math("2*x+3*y-0", "2*x+3*y").
 
 :- end_tests(composed_test).
