@@ -1,89 +1,29 @@
 :- module(parse, [parse_expression/2, expr/3]).
 
-% :- use_module(library(dcg/basics)).
+:- use_module('../src/token.pl').
 
 parse_expression(Expression, AST) :-
-    ato(Expression, Codes),
-    phrase(expr(AST), Codes).
-
-parse_string(String, Result) :-
-    atom_codes(String, Codes),
-    tokenize(Codes, Tokens),
-    phrase(expr(Result), Tokens).
-
-tokenize([], []).
-tokenize([Code | RestCodes], [Token | RestTokens]) :-
-    ( char_type(Code, digit) ->
-        number_codes(Token, [Code])
-    ; char_type(Code, alpha) ->
-        Token = Code
-    ; atom_codes(Token, [Code])
-    ),
-    tokenize(RestCodes, RestTokens).
+    tokenize(Expression, Tokens),
+    phrase(expr(AST), Tokens).
 
 expr(       T        ) --> term(T).
-expr(       add(X,Y) ) --> term(X), [+], expr(Y).
-expr(       sub(X,Y) ) --> term(X), [-], expr(Y).
+expr(       add(X,Y) ) --> term(X), [add], expr(Y).
+expr(       sub(X,Y) ) --> term(X), [sub], expr(Y).
 
 term(       T        ) --> factor(T).
-term(       mul(X,Y) ) --> factor(X), [*], term(Y).
-term(       dvd(X,Y) ) --> factor(X), [/], term(Y).
+term(       mul(X,Y) ) --> factor(X), [mul], term(Y).
+term(       dvd(X,Y) ) --> factor(X), [dvd], term(Y).
 
 factor(     F        ) --> base(F).
-factor(     pow(X,Y) ) --> base(X), [^], factor(Y).
+factor(     pow(X,Y) ) --> base(X), [pow], factor(Y).
 
-% base(       ID       ) --> identifier(ID).
-base(       num(N)   ) --> is_number(N).
-base(       vrb(X)   ) --> is_variable(X).
-base(     diff(E, X) ) --> ['D'], base(X), ['('], expr(E), [')'].
-base(    integ(E, X) ) --> ['∫'], ['('], expr(E), [')'], base(X).
-base(       sin(E)   ) --> [sin], ['('], expr(E), [')'].
-base(       cos(E)   ) --> [cos], ['('], expr(E), [')'].
-base(       exp(E)   ) --> [exp], ['('], expr(E), [')'].
+base(       num(N)   ) --> [num(N)].
+base(       vrb(X)   ) --> [vrb(X)].
+base( diff(E, vrb(X))) --> [diff],  [vrb(X)], [lparen], expr(E), [rparen].
+base(integ(E, vrb(X))) --> [integ], [lparen], expr(E), [rparen], [vrb(X)].
+base(       sin(E)   ) --> [sin], [lparen], expr(E), [rparen].
+base(       cos(E)   ) --> [cos], [lparen], expr(E), [rparen].
+base(       exp(E)   ) --> [exp], [lparen], expr(E), [rparen].
 
-base(       T        ) --> ['('], expr(T), [')'].
-
-identifier( ID       ) --> [X], { id(X), ID = X }.
-
-is_number(  N        ) --> [N], { number(N)}.
-% is_integer( N        ) --> [X], { number(N), integer(N) }.
-is_variable( V       ) --> [X], { atom(X), V = X }.
-
-
-is_alpha(C) :-
-  C >= 0'a, C =< 0'z;
-  C >= 0'A, C =< 0'Z.
-
-% id(X) :-
-%   C >= 0'a, C =< 0'z.
-
-
-id(a).
-id(b).
-id(c).
-id(d).
-id(e).
-id(f).
-id(g).
-id(h).
-id(i).
-id(j).
-id(k).
-id(l).
-id(m).
-id(n).
-id(o).
-id(p).
-id(q).
-id(r).
-id(s).
-id(t).
-id(u).
-id(v).
-id(w).
-id(x).
-id(y).
-id(z).
-
-
+base(       T        ) --> [lparen], expr(T), [rparen].
 
