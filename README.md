@@ -2,6 +2,8 @@
 
 MicroMath is a simple symbolic math library written in Prolog. It provides basic functionality for parsing, simplifying, and performing symbolic differentiation and integration.
 
+[Course Project Link](https://wiki.ubc.ca/Course:CPSC312-2023/Projects#MicroMath)
+
 ## Features
 
 - Expression parsing
