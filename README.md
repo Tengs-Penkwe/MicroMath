@@ -62,8 +62,7 @@ This command will load the main.pl, parse_ts.pl, and simplify_ts.pl files, run t
 
 # Features to add
 1. Adding const to AST, so we can deal with 2rd integration correctly (Cx)
-2. Don't need parentheses for `(4*x^2)/(2+x))`, `(1*2)/(3+4-5)` but for `1/(2/3*4)`
-3. Improve differentiation and integration, more generic 
+2. Improve differentiation and integration, more generic 
 ```Prolog
 ast_to_string(diff(exp(mul(vrb(x), pow(vrb(x), num(2)))), mul(num(2), vrb(x))),  T).
 T = 'D2*x(exp(x*x^2))'.
