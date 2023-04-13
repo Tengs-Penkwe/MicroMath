@@ -23,8 +23,35 @@ tokens([T|Ts]) -->
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%  Numbers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-number_token(num(S)) --> 
-	[N], { atom_number(N, S) }.
+% number_token(num(S)) --> 
+% 	[N], { atom_number(N, S) }.
+
+number_token(num(S)) -->
+    digits_before_decimal(BeforeDecimal),
+    { concat_atom(BeforeDecimal, Before)} ,
+    (   ['.'],
+        digits_after_decimal(AfterDecimal),
+        {concat_atom(AfterDecimal, After),
+        concat_atom([Before, '.', After], NumStr)
+        }
+    ;   { NumStr = Before }
+    ),
+    { atom_number(NumStr, S)},!.
+
+% Digits before the decimal point
+digits_before_decimal(Digits) -->
+    digit_sequence(Digits).
+
+% Digits after the decimal point
+digits_after_decimal(Digits) -->
+    digit_sequence(Digits).
+
+% Helper rule for matching a sequence of digits
+digit_sequence([D|Ds]) -->
+    [D], {is_digit(D)},
+    (   digit_sequence(Ds)
+    ;   {Ds = []}
+    ).
 
 % is_number(  N        ) --> [N], { number(N)}.
 
@@ -60,7 +87,7 @@ function_token(exp)   --> [e, x, p], !.
 variable_token(vrb(V))--> var_name(V).
 
 var_name(V) -->
-    [C], {is_alpha(C), V = C}, !.
+    [C], {is_alpha(C), V = C}.
     % var_name_chars(Cs),
     % {atom_codes(V, [C|Cs])}.
 
@@ -93,7 +120,14 @@ bracket_token(rparen) --> [')'].
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%  Whitespace
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-white --> white_char, white.
+white --> white_chars, !.
 white --> [].
 
+white_chars --> white_char, white_chars.
+white_chars --> [].
+
 white_char --> [C], {code_type(C, space)}.
+% white --> white_char, white.
+% white --> [].
+
+% white_char --> [C], {code_type(C, space)}.
