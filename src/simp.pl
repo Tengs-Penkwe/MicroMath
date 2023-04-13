@@ -178,7 +178,11 @@ simplify_operation(Expr, Op, Var, R) :-
     R = SS
   ; S = cos(E) ->
     simplify(diff(E, Var), D),
-    simplify(mul(D, sub(num(0), cos(E))), SS),
+    simplify(mul(D, sub(num(0), sin(E))), SS),
+    R = SS
+  ; S = exp(E) ->
+    simplify(diff(E, Var), D),
+    simplify(mul(D, exp(E)), SS),
     R = SS
   ; S = add(E1, E2) ->
     simplify(diff(E1, Var), S1),
